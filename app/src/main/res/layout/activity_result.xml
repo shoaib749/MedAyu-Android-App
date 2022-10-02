@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".result">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".60"
+        android:scaleType="centerCrop"
+        android:src="@drawable/result"/>
+
+    <ImageView
+        android:id="@+id/IVimage"
+        android:layout_width="284dp"
+        android:layout_height="194dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:src="@drawable/sample" />
+
+    <TextView
+        android:id="@+id/TVBName"
+        android:layout_width="264dp"
+        android:layout_height="34dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal|top"
+        android:text="Botanical Plant or Fruit name"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:textStyle="bold">
+    </TextView>
+    <TextView
+        android:layout_width="230dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="54dp"
+        android:id="@+id/TVAName"
+        android:layout_centerHorizontal="true"
+        android:text="Plant or furit name in Ayruveda"
+        android:textSize="16sp"
+        android:gravity="center_horizontal|top"
+        android:textColor="#000000">
+    </TextView>
+    <TextView
+        android:layout_width="322dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="350dp"
+        android:id="@+id/TVDesc"
+        android:layout_centerHorizontal="true"
+        android:text="Description\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+        android:textSize="20sp"
+        android:gravity="top"
+        android:textColor="#000000">
+    </TextView>
+
+</RelativeLayout>

@@ -4,31 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@drawable/mainactivity">
+    tools:context=".ImageView">
 
+    <ImageView
+        android:id="@+id/IVimage"
+        android:layout_width="284dp"
+        android:layout_height="194dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/sample" />
     <Button
-        android:id="@+id/B_camera"
-        android:layout_width="275dp"
+        android:id="@+id/B_result"
+        android:layout_width="226dp"
         android:layout_height="58dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="550dp"
         android:gravity="center_horizontal|top"
-        android:text="Scan through camera"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        android:background="@drawable/curve_button" />
-
-    <Button
-        android:id="@+id/B_upload"
-        android:layout_width="275dp"
-        android:layout_height="58dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="259dp"
-        android:gravity="center_horizontal|top"
-        android:text="Upload photo"
+        android:text="See Result"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:background="@drawable/curve_button"/>
-
 </RelativeLayout>
