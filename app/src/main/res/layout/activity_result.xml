@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".result">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha=".60"
-        android:scaleType="centerCrop"
-        android:src="@drawable/result"/>
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:alpha=".60"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/result" />-->
+
+
 
     <ImageView
         android:id="@+id/IVimage"
@@ -44,16 +46,50 @@
         android:gravity="center_horizontal|top"
         android:textColor="#000000">
     </TextView>
+
     <TextView
-        android:layout_width="322dp"
-        android:layout_height="400dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVCategory"
+        android:layout_marginTop="320dp"
+        android:layout_marginLeft="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVRegion"
+        android:layout_marginTop="325dp"
+        android:layout_marginLeft="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVCondition"
         android:layout_marginTop="350dp"
-        android:id="@+id/TVDesc"
-        android:layout_centerHorizontal="true"
-        android:text="Description\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
-        android:textSize="20sp"
-        android:gravity="top"
-        android:textColor="#000000">
-    </TextView>
+        android:layout_marginLeft="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVSide_Effects"
+        android:layout_marginTop="375dp"
+        android:layout_marginLeft="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVConsume"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVPart"
+        android:layout_marginTop="425dp"
+        android:layout_marginLeft="25dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVVitamins"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="25dp"/>
+
+
 
 </RelativeLayout>

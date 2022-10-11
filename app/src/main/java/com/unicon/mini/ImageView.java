@@ -82,30 +82,7 @@ public class ImageView extends AppCompatActivity {
 
                 }).check();
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
-        if(requestCode==1 && resultCode==RESULT_OK)
-        {
-            Uri filepath=data.getData();
-            try
-            {
-                Context applicationContext = getApplicationContext();
-                InputStream inputStream=applicationContext.getContentResolver().openInputStream(filepath);
-                bitmap= BitmapFactory.decodeStream(inputStream);
-                imageView.setImageBitmap(bitmap);
-                encodeBitmapImage(bitmap);
-            }catch (Exception ex)
-            {
 
-            }
-        }
-        if(requestCode==2 && resultCode==RESULT_OK){
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(photo);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
     private void encodeBitmapImage(Bitmap bitmap)
     {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
@@ -139,4 +116,32 @@ public class ImageView extends AppCompatActivity {
                     }
                 }).check();
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode==1)
+            {
+                Uri filepath=data.getData();
+                try
+                {
+                    Context applicationContext = getApplicationContext();
+                    InputStream inputStream=applicationContext.getContentResolver().openInputStream(filepath);
+                    bitmap= BitmapFactory.decodeStream(inputStream);
+                    imageView.setImageBitmap(bitmap);
+                    encodeBitmapImage(bitmap);
+                }catch (Exception ex)
+                {
+
+                }
+            }
+            if(requestCode==2){
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(photo);
+            }
+        }
+
+    }
+
 }

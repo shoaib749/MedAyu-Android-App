@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImageView">
+    tools:context=".ImageView"
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/IVimage"

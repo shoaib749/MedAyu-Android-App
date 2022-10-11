@@ -13,11 +13,11 @@
         android:layout_height="58dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="115dp"
+        android:background="@drawable/curve_button"
         android:gravity="center_horizontal|top"
         android:text="Scan through camera"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:background="@drawable/curve_button" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/B_upload"
@@ -25,10 +25,10 @@
         android:layout_height="58dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="259dp"
+        android:background="@drawable/curve_button"
         android:gravity="center_horizontal|top"
         android:text="Upload photo"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:background="@drawable/curve_button"/>
+        android:textSize="20sp" />
 
 </RelativeLayout>

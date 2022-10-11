@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "401605752029",
+    "firebase_url": "https://miniproject-b051a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "miniproject-b051a",
+    "storage_bucket": "miniproject-b051a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401605752029:android:bb09a20b6061c8ea22d734",
+        "android_client_info": {
+          "package_name": "com.unicon.mini"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401605752029-a66nu13gfte73t7vq72cf9bbcmnfbuor.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf0CIQ9AN6EuK1iGIioOvY9eiNmmT2O9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401605752029-a66nu13gfte73t7vq72cf9bbcmnfbuor.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
