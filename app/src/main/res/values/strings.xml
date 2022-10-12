@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Mini</string>
+    <string name="botanical_plant_or_fruit_name">Botanical Plant or Fruit name</string>
+    <string name="plant_or_furit_name_in_ayruveda">Plant or furit name in Ayruveda</string>
+    <string name="plant_image">Plant Image</string>
+    <string name="can_cure">Can cure:</string>
+    <string name="can_cure_body">Can cure body</string>
+    <string name="vitamins_present">Vitamins present:</string>
+    <string name="vitamins_present_body">Vitamins present Body</string>
+    <string name="edible">Edible:</string>
+    <string name="edible_body">Edible body</string>
+    <string name="regions">Regions:</string>
+    <string name="parts_to_be_used">Parts to be Used:</string>
+    <string name="regions_body">Regions body</string>
+    <string name="parts_to_be_used_body">Parts to be Used Body</string>
+    <string name="constraints">Constraints:</string>
+    <string name="constraints_body">Constraints Body</string>
+    <string name="consumed_form">Consumed Form:</string>
+    <string name="consumed_form_body">Consumed Form Body</string>
+    <string name="side_effects">Side Effects:</string>
+    <string name="conditions">Conditions:</string>
+    <string name="condition_body">Condition Body</string>
+    <string name="side_effects_body">Side Effects Body</string>
+    <string name="minerals_present_body">Minerals present Body</string>
+    <string name="minerals_present">Minerals present:</string>
+    <string name="see_result">See Result</string>
 </resources>
