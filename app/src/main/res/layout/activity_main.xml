@@ -38,7 +38,7 @@
         android:layout_marginTop="280dp"
         android:background="@drawable/curve_button"
         android:gravity="center_horizontal|top"
-        android:text="Upload photo"
+        android:text="Scan QR"
         android:textAllCaps="false"
         android:textSize="20sp" />
 
