@@ -1,6 +1,7 @@
 package com.unicon.mini;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
@@ -31,6 +32,9 @@ public class result extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        //taking intent data from qr activity
+        Intent intent = getIntent();
+        searchPlant = intent.getStringExtra("result");
 
         TVBName = findViewById(R.id.TVBName);
         TVAName = findViewById(R.id.TVAName);
