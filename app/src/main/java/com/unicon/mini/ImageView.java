@@ -1,21 +1,39 @@
 package com.unicon.mini;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -23,8 +41,14 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImageView extends AppCompatActivity {
     private Button Bresult;
@@ -32,7 +56,12 @@ public class ImageView extends AppCompatActivity {
     Bitmap bitmap,thumbnail;
     String encodeImageString;
     String image_path;
+    Bitmap photo;
     int code;
+    //url for image picker
+    Uri filepath;
+    String download;
+    String result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +82,7 @@ public class ImageView extends AppCompatActivity {
         Bresult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ImageView.this,result.class);
-                startActivity(intent);
+                uploadFire();
             }
         });
     }
@@ -123,12 +151,12 @@ public class ImageView extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             if(requestCode==1)
             {
-                Uri filepath=data.getData();
+                filepath=data.getData();
                 try
                 {
                     Context applicationContext = getApplicationContext();
                     InputStream inputStream=applicationContext.getContentResolver().openInputStream(filepath);
-                    bitmap= BitmapFactory.decodeStream(inputStream);
+                    bitmap = BitmapFactory.decodeStream(inputStream);
                     imageView.setImageBitmap(bitmap);
                     encodeBitmapImage(bitmap);
                 }catch (Exception ex)
@@ -137,11 +165,111 @@ public class ImageView extends AppCompatActivity {
                 }
             }
             if(requestCode==2){
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                imageView.setImageBitmap(photo);
+                try{
+                    photo = (Bitmap) data.getExtras().get("data");
+                    imageView.setImageBitmap(photo);
+                }catch (Exception e){
+                    Log.e("error Camera",e.toString());
+                    Toast.makeText(getApplicationContext(), "error"+e, Toast.LENGTH_LONG).show();
+                }
             }
         }
 
+    }
+
+
+    //code for uploading image to firebase
+    private void uploadFire(){
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Processing...");
+        progressDialog.show();
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+
+        //testing code for uploading thorught bitmap
+        //// Get the data from an ImageView as bytes
+        imageView.setDrawingCacheEnabled(true);
+        imageView.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference uploder = storage.getReference().child("UserImage").child(ts);
+        uploder.putBytes(data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Image Uploaded",Toast.LENGTH_SHORT).show();
+                        uploder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+
+                            public void onSuccess(Uri uri) {
+                                download = uri.toString();
+                                Toast.makeText(getApplicationContext(),download,Toast.LENGTH_LONG).show();
+                                apirequest(download);
+                            }
+                        });
+
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                    }
+                });
+    }
+    //code for api request
+    private void apirequest(String download){
+//        ProgressDialog Dialog = new ProgressDialog(getApplicationContext());
+//        Dialog.setTitle("Requesting data....");
+//        Dialog.show();
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "https://medayuflask.herokuapp.com/class",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        Dialog.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            result = jsonObject.getString("class");
+                            Log.e("result", result);
+                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(ImageView.this,result.class);
+                            intent.putExtra("result",result);
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),"error"+e,Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Dialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String,String>();
+                Log.e("down",download);
+                params.put("test_url",download);
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        requestQueue.add(stringRequest);
     }
 
 }
