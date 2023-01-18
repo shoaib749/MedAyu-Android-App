@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -62,6 +68,8 @@ public class ImageView extends AppCompatActivity {
     Uri filepath;
     String download;
     String result;
+    Long tsLong = System.currentTimeMillis()/1000;
+    String ts = tsLong.toString();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,10 +134,6 @@ public class ImageView extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response)
                     {
-//                        Intent intent=new Intent(Intent.ACTION_PICK);
-//                        intent.setType("image/*");
-//                        startActivityForResult(Intent.createChooser(intent,"Browse Image"),1);
-//                        Toast.makeText(MainActivity.this, "Permission granted", Toast.LENGTH_SHORT).show();
                         //if permission given opening camera
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent,2);
@@ -164,7 +168,7 @@ public class ImageView extends AppCompatActivity {
 
                 }
             }
-            if(requestCode==2){
+            else if(requestCode==2){
                 try{
                     photo = (Bitmap) data.getExtras().get("data");
                     imageView.setImageBitmap(photo);
@@ -183,8 +187,7 @@ public class ImageView extends AppCompatActivity {
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Processing...");
         progressDialog.show();
-        Long tsLong = System.currentTimeMillis()/1000;
-        String ts = tsLong.toString();
+
 
         //testing code for uploading thorught bitmap
         //// Get the data from an ImageView as bytes
@@ -201,7 +204,7 @@ public class ImageView extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
+                        final int[] flag = {0};
                         Toast.makeText(getApplicationContext(),"Image Uploaded",Toast.LENGTH_SHORT).show();
                         uploder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
@@ -209,9 +212,12 @@ public class ImageView extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
                                 download = uri.toString();
                                 Toast.makeText(getApplicationContext(),download,Toast.LENGTH_LONG).show();
-                                apirequest(download);
+                                flag[0] =  apirequest(download);
                             }
                         });
+                        if(flag[0] == 1){
+                            progressDialog.dismiss();
+                        }
 
                     }
                 })
@@ -223,13 +229,14 @@ public class ImageView extends AppCompatActivity {
                 });
     }
     //code for api request
-    private void apirequest(String download){
+    private int apirequest(String download){
 //        ProgressDialog Dialog = new ProgressDialog(getApplicationContext());
 //        Dialog.setTitle("Requesting data....");
 //        Dialog.show();
+        int flag = 1;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "https://medayuflask.herokuapp.com/class",
+                "http://192.168.43.89:5000/class",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -238,10 +245,13 @@ public class ImageView extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             result = jsonObject.getString("class");
                             Log.e("result", result);
+                            savetoDB(result,download);
                             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                            int flag = 1;
                             Intent intent = new Intent(ImageView.this,result.class);
                             intent.putExtra("result",result);
                             startActivity(intent);
+                            finish();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),"error"+e,Toast.LENGTH_LONG).show();
@@ -270,6 +280,25 @@ public class ImageView extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
         requestQueue.add(stringRequest);
+        return flag;
+    }
+
+    public void savetoDB(String result,String download){
+        FirebaseDatabase firebaseDatabase;
+        DatabaseReference dbRef;
+        DataHolder holder = new DataHolder(result, download);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        dbRef = firebaseDatabase.getReference("userDB").child(ts);
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dbRef.setValue(holder);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), " used DB Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
