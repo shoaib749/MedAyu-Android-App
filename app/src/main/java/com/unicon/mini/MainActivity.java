@@ -17,7 +17,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 public class MainActivity extends AppCompatActivity {
-    private Button BCamera,BUpload,B_qr;
+    private Button BCamera,BUpload,B_qr,Bremedies;
     private int code = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
         BCamera = findViewById(R.id.B_camera);
         BUpload = findViewById(R.id.B_upload);
         B_qr = findViewById(R.id.B_qr);
+        Bremedies = findViewById(R.id.B_remedies);
+        Bremedies.setOnClickListener((view)->
+        {
+            Intent i = new Intent(MainActivity.this,Questionare.class);
+            startActivity(i);
+        });
         BUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

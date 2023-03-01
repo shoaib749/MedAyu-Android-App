@@ -13,4 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/apple_green</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.Mini.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Mini.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Mini.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
