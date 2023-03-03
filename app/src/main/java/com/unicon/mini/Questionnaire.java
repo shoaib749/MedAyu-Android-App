@@ -1,27 +1,18 @@
 package com.unicon.mini;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ToggleButton;
+import 	com.google.android.material.switchmaterial.SwitchMaterial;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.unicon.mini.databinding.ActivityQuestionareBinding;
-
-public class Questionare extends AppCompatActivity {
+public class Questionnaire extends AppCompatActivity {
 
     Button B_submit;
-    ToggleButton TB_cough,TB_diarrhea,TB_fatigue,TB_fever;
+    SwitchMaterial TB_cough,TB_diarrhea,TB_fatigue,TB_fever;
     EditText ET_disease;
 
     @Override
@@ -34,7 +25,10 @@ public class Questionare extends AppCompatActivity {
         TB_diarrhea = findViewById(R.id.TB_diarrhea);
         TB_fever = findViewById(R.id.TB_fever);
         TB_fatigue = findViewById(R.id.TB_fatigue);
-
+        B_submit.setOnClickListener((view -> {
+            Intent i = new Intent(this,Remedies_result.class);
+            startActivity(i);
+        }));
 
     }
 

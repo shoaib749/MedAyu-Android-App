@@ -18,13 +18,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Questionare"
+            android:name=".Remedies_result"
+            android:exported="false" />
+        <activity
+            android:name=".Questionnaire"
             android:exported="false"
-            android:label="@string/title_activity_questionare"
+            android:label="@string/title_activity_questionnaire"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Mini.NoActionBar" />
         <activity
             android:name=".Qrcode"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

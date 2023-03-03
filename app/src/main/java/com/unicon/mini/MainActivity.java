@@ -2,19 +2,10 @@ package com.unicon.mini;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 public class MainActivity extends AppCompatActivity {
     private Button BCamera,BUpload,B_qr,Bremedies;
@@ -29,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         Bremedies = findViewById(R.id.B_remedies);
         Bremedies.setOnClickListener((view)->
         {
-            Intent i = new Intent(MainActivity.this,Questionare.class);
+            Intent i = new Intent(MainActivity.this, Questionnaire.class);
             startActivity(i);
         });
         BUpload.setOnClickListener(new View.OnClickListener() {

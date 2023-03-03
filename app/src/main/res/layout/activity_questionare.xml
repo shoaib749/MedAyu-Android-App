@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    tools:context=".Questionare">
+    tools:context=".Questionnaire">
 
 
     <ImageView
@@ -19,15 +19,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/questionare_background" />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/TB_fever"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_fever"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_fever"
+        app:layout_constraintTop_toTopOf="@+id/textView_fever" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/TB_fatigue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Fatigue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_Fatigue"
+        app:layout_constraintTop_toTopOf="@+id/textView_Fatigue" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/TB_diarrhea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_diarrhea"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_diarrhea"
+        app:layout_constraintTop_toTopOf="@+id/textView_diarrhea" />
+
     <TextView
         android:id="@+id/textView_fever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="416dp"
+        android:layout_marginTop="360dp"
         android:text="Do you have Fever?"
         android:textColor="#000"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.287"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,12 +63,12 @@
         android:id="@+id/textView_Fatigue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="256dp"
         android:text="Do you have Fatigue?"
         android:textColor="#000"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,70 +76,26 @@
         android:id="@+id/textView_diarrhea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="168dp"
         android:text="Do you have Diarrhea?"
         android:textColor="#000"
 
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.209"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ToggleButton
-        android:id="@+id/TB_cough"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textOff="No"
-        android:textOn="Yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_cough" />
-
-    <ToggleButton
-        android:id="@+id/TB_diarrhea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
-        android:textOff="No"
-        android:textOn="Yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_cough" />
-
-    <ToggleButton
-        android:id="@+id/TB_fatigue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="284dp"
-        android:textOff="No"
-        android:textOn="Yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_cough" />
-
-    <ToggleButton
-        android:id="@+id/TB_fever"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="404dp"
-        android:textOff="No"
-        android:textOn="Yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_cough" />
 
     <TextView
         android:id="@+id/textView_cough"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="76dp"
         android:text="Do you have Cough?"
         android:textColor="#000"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.244"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -131,7 +115,7 @@
         android:id="@+id/ET_disease"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="148dp"
         android:background="@drawable/round_edit_text"
         android:ems="10"
         android:hint="Enter Disease"
@@ -144,5 +128,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/TB_cough"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_cough"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_cough"
+        app:layout_constraintTop_toTopOf="@+id/textView_cough" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

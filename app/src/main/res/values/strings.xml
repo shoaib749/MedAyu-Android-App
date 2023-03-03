@@ -24,7 +24,7 @@
     <string name="minerals_present_body">Minerals present Body</string>
     <string name="minerals_present">Minerals present:</string>
     <string name="see_result">See Result</string>
-    <string name="title_activity_questionare">Questionare</string>
+    <string name="title_activity_questionnaire">Questionnaire</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
