@@ -28,7 +28,6 @@ public class Questionnaire3 extends AppCompatActivity {
 
         //TODO add data in to this list
         list.add("null");
-        list.add("null");
         list.add("Congestive heart disease");
         list.add("Chorea");
         list.add("Glaucoma");
