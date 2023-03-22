@@ -10,43 +10,71 @@
     tools:context=".Questionnaire">
 
 
-    <Button
-        android:id="@+id/B_submit"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:background="@drawable/curve_button"
-        android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/ET_symptoms"
-        app:layout_constraintVertical_bias="0.07999998" />
-
     <!--    <com.hootsuite.nachos.NachoTextView-->
 <!--        android:id="@+id/nacho_text_view"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content" />-->
 
 
-    <EditText
-        android:id="@+id/ET_symptoms"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="108dp"
-        android:background="@drawable/round_edit_text"
-        android:ems="10"
-        android:hint="Enter Symptoms"
-        android:inputType="textPersonName"
-        android:padding="5dp"
-        android:textColor="#000"
-        android:textSize="20sp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="601dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.01999998" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.64"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:id="@+id/LL_symptoms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="76dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.011"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="MissingConstraints">
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/B_submit"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:background="@drawable/curve_button"
+            android:text="Submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/LL_symptoms"
+            app:layout_constraintVertical_bias="0.28" />
+
+        <Button
+            android:id="@+id/B_add"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/curve_button"
+            android:text="Add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/LL_symptoms"
+            app:layout_constraintVertical_bias="0.28" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/textView"
@@ -61,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.120000005" />
+        app:layout_constraintVertical_bias="0.050000012" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
