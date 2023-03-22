@@ -36,6 +36,8 @@ public class Questionnaire extends AppCompatActivity {
     LinearLayout layout;
     EditText ET_symptoms;
     int i=0;
+    ArrayList<String> symptoms = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,53 +45,17 @@ public class Questionnaire extends AppCompatActivity {
         setContentView(R.layout.activity_questionare);
         B_submit = findViewById(R.id.B_submit);
         B_add = findViewById(R.id.B_add);
-//        ET_symptoms = findViewById(R.id.ET_symptoms);
         layout = findViewById(R.id.LL_symptoms);
         Context context = this.getApplicationContext();
 
-//        start of testing code for dynamic rendering of EditText
-//        ET_symptoms.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                //no  need to be used
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                //Check if the existing EditText is not empty
-//                if(!TextUtils.isEmpty(charSequence)){
-//                    //create a new EditText
-//                    EditText newEditText = new EditText(getApplicationContext());
-//                    newEditText.setLayoutParams(new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.WRAP_CONTENT
-//                    ));
-//                    newEditText.setHint("Symptoms");
-//                    newEditText.setPadding(5,5,5,5);
-//                    newEditText.setBackground(Drawable.createFromPath("@drawable/round_edit_text"));
-//                    newEditText.setTextSize(20);
-//                    newEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-//                    newEditText.setEms(10);
-//                    newEditText.setMaxHeight(50);
-//                    newEditText.setTextColor(Color.BLACK);
-//                    //adding to linear layout
-//                    layout.addView(newEditText);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                //no need
-//            }
-//        });
-//        End of testing EditText
+    
 
         //start for add button
         B_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText editText = new EditText(getApplicationContext());
-                editText.setId(View.generateViewId());
+                editText.setId(i);
                 editText.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
                 int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
                 editText.setPadding(padding, padding, padding, padding);
@@ -105,38 +71,73 @@ public class Questionnaire extends AppCompatActivity {
                 params.bottomMargin = 16;
                 params.topMargin = 16;
                 params.height = 125;
-//                editText.setLayoutParams(new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.WRAP_CONTENT
-//                    ));
-//                ConstraintLayout.LayoutParams constraintLayoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                constraintLayoutParams.bottomToBottom = R.id.parentView;
-//                constraintLayoutParams.horizontalBias = 0.5f;
-//                constraintLayoutParams.startToStart = R.id.parentView;
-//                Set the layout params for the EditText
+
                 editText.setLayoutParams(params);
 //                editText.setLayoutParams(constraintLayoutParams);
                 layout.addView(editText);
                 i++;
             }
         });
-        //end for add button
-//        B_submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                String symp = String.valueOf(ET_symptoms.getText()).trim();
-//                if(symp.equals("")){
-//                    Toast.makeText(context, "Please enter diseases", Toast.LENGTH_LONG).show();
-//                }
-//                else {
-//                    Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(context, Questionnaire2.class);
-//                    startActivity(intent);
-//                }
-//            }
-//        });
+        // end for add button
+       B_submit.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+                //getting symptoms text
+                for(int j=0;j<i;j++){
+                    EditText newEditText;
+                    newEditText = findViewById(R.id.j);
+                    String symp = String.valueOf(newEditText.getText()).trim();
+                    if(symp.equals("")){
+                        Toast.makeText(context, "Please enter diseases", Toast.LENGTH_LONG).show();
+                    }else {
+                        Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
+                        symptoms.add(symp);
+                       
+                    }
+                }
+                //sending data throw api
+                String[] symptomsArray = symptoms.toArray(new String[symptoms.size()]);
+                apirequest(symptomsArray);
 
+               
+           }
+       });
+
+    }
+    private void apirequest(String[] symptoms){
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+        "https://web-production-aeed.up.railway.app/EnterSymptoms",
+        new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try{    
+                    JSONObject jsonObject = new JSONObject(response);
+                    result = jsonObject.getString("result");
+                    ObjectMapper mapper = new ObjectMapper();
+                    List<String> resultList = mapper.readValue(result, new TypeReference<List<String>>(){});
+                    Intent intent = new Intent(getApplicationContext(), Questionnaire2.class);
+                    intent.putExtra("symptoms",resultList);
+                    startActivity(intent);
+
+                }catch(Exception error){
+                    Toast.makeText(getApplicationContext(),"errorInJSON:"+error,Toast.LENGTH_LONG).show();
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErroResponse(VolleyError Error){
+                    Toast.makeText(getApplicationContext(),"errorInApiRequest:"+Error,Toast.LENGTH_LONG).show();
+                }
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String,String>();
+                params.put("user_symtoms",symptoms)
+                return params;
+            }
+        }
     }
 
 
