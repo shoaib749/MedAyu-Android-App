@@ -119,6 +119,11 @@ public class Questionnaire extends AppCompatActivity {
 
     }
     private void apirequest(String[] symptoms){
+        //showing progress dailog
+        Progress progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setTitle("Proessing...");
+        progressDialog.show();
+
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
         "https://web-production-aeed.up.railway.app/EnterSymptoms",
@@ -136,11 +141,13 @@ public class Questionnaire extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         resultList.add(jsonArray.getString(i));
                     }
+                    progressDialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), Questionnaire2.class);
                     intent.putExtra("symptoms", resultList);
                     startActivity(intent);
 
                 } catch (Exception error) {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "errorInJSON:" + error, Toast.LENGTH_LONG).show();
                 }
             }
@@ -148,7 +155,7 @@ public class Questionnaire extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Dialog.dismiss();
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
                     }
         }){

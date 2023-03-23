@@ -10,5 +10,10 @@ public class Remedies_result extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remedies_result);
+
+
+        //geting Data od disease
+        Intent intent = getIntent();
+        String disease = intent.getStringExtra("disease");
     }
 }

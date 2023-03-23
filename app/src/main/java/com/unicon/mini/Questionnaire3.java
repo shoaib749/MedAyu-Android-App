@@ -38,31 +38,7 @@ public class Questionnaire3 extends AppCompatActivity {
         ArrayList<String> list = new ArrayList<>();
         ArrayList<String> check = new ArrayList<>();
         submit = findViewById(R.id.submitSymp3);
-
-        // //TODO add data in to this list
-        // list.add("null");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
+        
         list = (ArrayList<String>)getIntent().getSerializableExtra("symptoms_db");
 
         for (int i = 0; i < list.size(); i++) {
@@ -98,6 +74,11 @@ public class Questionnaire3 extends AppCompatActivity {
         });
     }
     private void apirequest(String[] symptoms){
+        //showing progress dailog
+        Progress progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setTitle("Proessing...");
+        progressDialog.show();
+        
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
         "https://web-production-aeed.up.railway.app/disease",
@@ -106,25 +87,30 @@ public class Questionnaire3 extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    ArrayList<String> resultList = new ArrayList<String>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        resultList.add(jsonArray.getString(i));
-                    }
-                    Intent i = new Intent(getApplicationContext(), Questionnaire3.class);
-                    i.putExtra("disease", resultList);
+                    // JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    // ArrayList<String> resultList = new ArrayList<String>();
+                    // for (int i = 0; i < jsonArray.length(); i++) {
+                    //     resultList.add(jsonArray.getString(i));
+                    // }
+                    String disease = jsonObject.getString("result");
+                    Log.e("disase:",disease);
+                    progressDialog.dismiss();
+                    Intent i = new Intent(getApplicationContext(), Remedies_result.class);
+                    i.putExtra("disease", disease);
                     startActivity(i);
 
 
                 } catch (Exception error) {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "errorInJSON:" + error, Toast.LENGTH_LONG).show();
                 }
+
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Dialog.dismiss();
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
                     }
         }){

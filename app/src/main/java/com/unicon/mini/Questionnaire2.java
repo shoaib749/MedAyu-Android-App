@@ -42,32 +42,6 @@ public class Questionnaire2 extends AppCompatActivity {
         ArrayList<String> check = new ArrayList<>();
         submit = findViewById(R.id.submitSymp2);
 
-        //TODO add data in to this list
-        // list.add("null");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
-        // list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");list.add("Congestive heart disease");
-        // list.add("Chorea");
-        // list.add("Glaucoma");
         list = (ArrayList<String>)getIntent().getSerializableExtra("symptoms");
         Toast.makeText(getApplicationContext(),list.toString(),Toast.LENGTH_LONG).show();
         for (int i = 0; i < list.size(); i++) {
@@ -106,6 +80,11 @@ public class Questionnaire2 extends AppCompatActivity {
         });
     }
     private void apirequest(String[] symptoms){
+        //showing progress dailog
+        Progress progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setTitle("Proessing...");
+        progressDialog.show();
+
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
         "https://web-production-aeed.up.railway.app/db",
@@ -119,12 +98,14 @@ public class Questionnaire2 extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         resultList.add(jsonArray.getString(i));
                     }
+                    progressDialog.dismiss();
                     Intent i = new Intent(getApplicationContext(), Questionnaire3.class);
                     i.putExtra("symptoms_db", resultList);
                     startActivity(i);
 
 
                 } catch (Exception error) {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "errorInJSON:" + error, Toast.LENGTH_LONG).show();
                 }
             }
@@ -132,7 +113,7 @@ public class Questionnaire2 extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Dialog.dismiss();
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
                     }
         }){
