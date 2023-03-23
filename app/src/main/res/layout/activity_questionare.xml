@@ -10,43 +10,33 @@
     tools:context=".Questionnaire">
 
 
-    <!--    <com.hootsuite.nachos.NachoTextView-->
-<!--        android:id="@+id/nacho_text_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content" />-->
 
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="601dp"
+        android:layout_height="300dp"
+        android:fadeScrollbars="false"
+        android:foregroundGravity="center"
+        android:maxHeight="300dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.64"
-        tools:ignore="ScrollViewCount">
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.110000014">
+
 
         <LinearLayout
             android:id="@+id/LL_symptoms"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
-            android:layout_marginTop="100dp"
-            android:orientation="vertical"
-            android:padding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.011"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@id/textView"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="MissingConstraints">
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical" />
 
-        </LinearLayout>
+    </ScrollView>
 
         <Button
             android:id="@+id/B_submit"
@@ -57,24 +47,22 @@
             android:text="Submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/LL_symptoms"
-            app:layout_constraintVertical_bias="0.28" />
+            app:layout_constraintTop_toBottomOf="@+id/scrollView"
+            app:layout_constraintVertical_bias="0.24000001"  />
 
-        <Button
-            android:id="@+id/B_add"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/curve_button"
-            android:text="Add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/LL_symptoms"
-            app:layout_constraintVertical_bias="0.28" />
-    </ScrollView>
+    <Button
+        android:id="@+id/B_add"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curve_button"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"
+        app:layout_constraintVertical_bias="0.24000001"  />
+
 
     <TextView
         android:id="@+id/textView"

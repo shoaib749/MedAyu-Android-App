@@ -22,13 +22,28 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kotlin.jvm.internal.TypeReference;
 
 public class Questionnaire extends AppCompatActivity {
 
@@ -85,7 +100,7 @@ public class Questionnaire extends AppCompatActivity {
                 //getting symptoms text
                 for(int j=0;j<i;j++){
                     EditText newEditText;
-                    newEditText = findViewById(R.id.j);
+                    newEditText = findViewById(j);
                     String symp = String.valueOf(newEditText.getText()).trim();
                     if(symp.equals("")){
                         Toast.makeText(context, "Please enter diseases", Toast.LENGTH_LONG).show();
@@ -108,36 +123,44 @@ public class Questionnaire extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
         "https://web-production-aeed.up.railway.app/EnterSymptoms",
-        new Response.Listener<String>(){
+        new Response.Listener<String>() {
             @Override
-            public void onResponse(String response){
-                try{    
+            public void onResponse(String response) {
+                try {
                     JSONObject jsonObject = new JSONObject(response);
-                    result = jsonObject.getString("result");
-                    ObjectMapper mapper = new ObjectMapper();
-                    List<String> resultList = mapper.readValue(result, new TypeReference<List<String>>(){});
+//                    String result = jsonObject.getString("result");
+//                    ObjectMapper mapper = new ObjectMapper();
+//                    List<String> resultList = mapper.readValue(result, new TypeReference<List<String>>() {
+//                    });
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    ArrayList<String> resultList = new ArrayList<String>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        resultList.add(jsonArray.getString(i));
+                    }
                     Intent intent = new Intent(getApplicationContext(), Questionnaire2.class);
-                    intent.putExtra("symptoms",resultList);
+                    intent.putExtra("symptoms", resultList);
                     startActivity(intent);
 
-                }catch(Exception error){
-                    Toast.makeText(getApplicationContext(),"errorInJSON:"+error,Toast.LENGTH_LONG).show();
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErroResponse(VolleyError Error){
-                    Toast.makeText(getApplicationContext(),"errorInApiRequest:"+Error,Toast.LENGTH_LONG).show();
+                } catch (Exception error) {
+                    Toast.makeText(getApplicationContext(), "errorInJSON:" + error, Toast.LENGTH_LONG).show();
                 }
             }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Dialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
+                    }
         }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String,String>();
-                params.put("user_symtoms",symptoms)
+                params.put("user_symtoms", String.valueOf(symptoms));
                 return params;
             }
-        }
+        };
+        requestQueue.add(stringRequest);
     }
 
 
