@@ -5,72 +5,84 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp"
     android:background="@drawable/mainactivity"
     tools:context=".MainActivity">
 
 
     <Button
+        android:id="@+id/B_upload"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/home_page_button"
+        android:drawableLeft="@drawable/baseline_cloud_upload_24"
+        android:drawablePadding="30dp"
+        android:drawableTint="@color/white"
+        android:gravity="center"
+        android:text="Upload photo"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38" />
+
+    <Button
         android:id="@+id/B_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@drawable/curve_button"
-        android:gravity="center_horizontal|top"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/home_page_button"
+        android:drawableLeft="@drawable/baseline_camera_alt_24"
+        android:drawableTint="@color/white"
+        android:gravity="center"
         android:text="Scan Leaf"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17000002" />
+
+    <Button
+        android:id="@+id/B_remedies"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/home_page_button"
+        android:drawableLeft="@drawable/ayurveda"
+        android:drawableTint="@color/white"
+
+        android:gravity="center"
+        android:text="Remedies"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.61" />
+
+    <Button
+        android:id="@+id/B_qr"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/home_page_button"
+        android:drawableLeft="@drawable/baseline_qr_code_24"
+        android:drawableTint="@color/white"
+        android:gravity="center"
+        android:text="Scan QR"
         android:textAllCaps="false"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.158" />
-
-    <Button
-        android:id="@+id/B_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/curve_button"
-        android:gravity="center_horizontal|top"
-        android:text="Upload photo"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/B_camera"
-        app:layout_constraintVertical_bias="0.089" />
-
-    <Button
-        android:id="@+id/B_remedies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/curve_button"
-        android:gravity="center_horizontal|top"
-        android:text="Remedies"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/B_qr" />
-
-    <Button
-        android:id="@+id/B_qr"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/curve_button"
-        android:gravity="center_horizontal|top"
-        android:text="Scan QR"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/B_upload" />
+        app:layout_constraintVertical_bias="0.83" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

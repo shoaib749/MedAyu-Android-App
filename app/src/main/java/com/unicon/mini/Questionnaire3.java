@@ -2,6 +2,7 @@ package com.unicon.mini;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,8 @@ public class Questionnaire3 extends AppCompatActivity {
         submit.setOnClickListener(v->{
             Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
             // TODO all ids of symptoms added in to listofId
+            Intent i = new Intent(this.getApplicationContext(),Remedies_result.class);
+            startActivity(i);
         });
     }
 }
