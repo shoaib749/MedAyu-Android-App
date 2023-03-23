@@ -107,7 +107,6 @@ public class Questionnaire extends AppCompatActivity {
                     }else {
                         Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
                         symptoms.add(symp);
-                       
                     }
                 }
                 //sending data throw api
@@ -155,8 +154,8 @@ public class Questionnaire extends AppCompatActivity {
         }){
             @Override
             protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String,String>();
-                params.put("user_symtoms", String.valueOf(symptoms));
+                Map<String,String[]> params = new HashMap<String,String>();
+                params.put("user_symtoms", symptoms);
                 return params;
             }
         };

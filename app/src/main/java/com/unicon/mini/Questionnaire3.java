@@ -131,7 +131,7 @@ public class Questionnaire3 extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String,String>();
-                params.put("syptoms", String.valueOf(symptoms));
+                params.put("syptoms",symptoms);
                 return params;
             }
         };
