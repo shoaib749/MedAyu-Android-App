@@ -160,8 +160,8 @@ public class Questionnaire extends AppCompatActivity {
                     }
         }){
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String[]> params = new HashMap<String,String>();
+            protected Map<String,String[]> getParams(){
+                Map<String,String[]> params = new HashMap<String,String[]>();
                 params.put("user_symtoms", symptoms);
                 return params;
             }

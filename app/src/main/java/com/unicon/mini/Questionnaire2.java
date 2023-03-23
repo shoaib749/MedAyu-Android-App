@@ -118,8 +118,8 @@ public class Questionnaire2 extends AppCompatActivity {
                     }
         }){
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String,String>();
+            protected Map<String,String[]> getParams(){
+                Map<String,String[]> params = new HashMap<String,String[]>();
                 params.put("request", symptoms);
                 return params;
             }

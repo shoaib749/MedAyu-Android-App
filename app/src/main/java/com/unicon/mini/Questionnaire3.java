@@ -87,11 +87,6 @@ public class Questionnaire3 extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    // JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    // ArrayList<String> resultList = new ArrayList<String>();
-                    // for (int i = 0; i < jsonArray.length(); i++) {
-                    //     resultList.add(jsonArray.getString(i));
-                    // }
                     String disease = jsonObject.getString("result");
                     Log.e("disase:",disease);
                     progressDialog.dismiss();
@@ -115,8 +110,8 @@ public class Questionnaire3 extends AppCompatActivity {
                     }
         }){
             @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String,String>();
+            protected Map<String,String[]> getParams(){
+                Map<String,String[]> params = new HashMap<String,String[]>();
                 params.put("syptoms",symptoms);
                 return params;
             }
