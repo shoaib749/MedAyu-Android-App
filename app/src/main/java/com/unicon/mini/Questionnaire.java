@@ -1,5 +1,6 @@
 package com.unicon.mini;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.chip.Chip;
@@ -33,6 +37,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
@@ -52,7 +57,7 @@ public class Questionnaire extends AppCompatActivity {
     EditText ET_symptoms;
     int i=0;
     ArrayList<String> symptoms = new ArrayList<String>();
-
+    String url ="https://web-production-aeed.up.railway.app/EnterSymptoms";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,23 +112,18 @@ public class Questionnaire extends AppCompatActivity {
                     }else {
                         // Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
                         symptoms.add(symp);
-                        //sending data throw api
-                        // String[] symptomsArray = symptoms.toArray(new String[symptoms.size()]);
-                        String symptomsArray= "[" + String.join(",", symptoms) + "]";
-                        Toast.makeText(context, symptomsArray, Toast.LENGTH_SHORT).show();
-                        apirequest(symptomsArray);
                     }
                 }
-                
-
-               
+               Toast.makeText(context,"e"+symptoms, Toast.LENGTH_LONG).show();
+               apirequest(symptoms);
+//               jsonApiRequest(symptoms);
            }
        });
 
     }
-    private void apirequest(String[] symptoms){
+    private void apirequest(ArrayList<String> symptoms){
         //showing progress dailog
-        Progress progressDialog = new ProgressDialog(getApplicationContext());
+        ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Proessing...");
         progressDialog.show();
 
@@ -163,14 +163,68 @@ public class Questionnaire extends AppCompatActivity {
                     }
         }){
             @Override
-            protected Map<String,String[]> getParams(){
-                Map<String,String[]> params = new HashMap<String,String[]>();
-                params.put("user_symtoms", symptoms);
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String,String>();
+                for(String i : symptoms){
+                    params.put("user_symtoms",i);
+                }
                 return params;
             }
         };
         requestQueue.add(stringRequest);
     }
+    private void jsonApiRequest(ArrayList<String> symptoms){
+        //showing progress dailog
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Proessing...");
+        progressDialog.show();
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JSONObject jsonparams  = new JSONObject();
+        try{
+            jsonparams.put("user_symtoms",new JSONArray(symptoms));
+            Toast.makeText(this, "Json:"+jsonparams, Toast.LENGTH_LONG).show();
+            Log.e("Json",jsonparams.toString());
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, jsonparams,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("result");
+                            ArrayList<String> resultList = new ArrayList<String>();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                resultList.add(jsonArray.getString(i));
+                            }
+                            progressDialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), Questionnaire2.class);
+                            intent.putExtra("symptoms", resultList);
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError{
+                Map<String,String> params = new HashMap<String,String>();
+                params.put("Content-type","application/x-www-form-urlencoded; charset=utf-8");
+                return  params;
+            }
+        };
+        requestQueue.add(postRequest);
+    }
 
 }

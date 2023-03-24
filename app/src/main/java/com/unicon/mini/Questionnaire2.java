@@ -2,6 +2,7 @@ package com.unicon.mini;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -73,16 +74,16 @@ public class Questionnaire2 extends AppCompatActivity {
         submit.setOnClickListener(v->{
 //            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
             // TODO all ids of symptoms added in to listofId
-            String symptomsArray= "[" + String.join(",", symptoms) + "]";
-            Toast.makeText(context, symptomsArray, Toast.LENGTH_SHORT).show();
+            String symptomsArray= "[" + String.join(",", check) + "]";
+            Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);
 
             
         });
     }
-    private void apirequest(String[] symptoms){
+    private void apirequest(String symptoms){
         //showing progress dailog
-        Progress progressDialog = new ProgressDialog(getApplicationContext());
+        ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
         progressDialog.setTitle("Proessing...");
         progressDialog.show();
 
@@ -119,8 +120,8 @@ public class Questionnaire2 extends AppCompatActivity {
                     }
         }){
             @Override
-            protected Map<String,String[]> getParams(){
-                Map<String,String[]> params = new HashMap<String,String[]>();
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String,String>();
                 params.put("request", symptoms);
                 return params;
             }
