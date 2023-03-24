@@ -115,13 +115,14 @@ public class Questionnaire extends AppCompatActivity {
                     }
                 }
                Toast.makeText(context,"e"+symptoms, Toast.LENGTH_LONG).show();
-               apirequest(symptoms);
+               String values = TextUtils.join(",",symptoms);
+               apirequest(values);
 //               jsonApiRequest(symptoms);
            }
        });
 
     }
-    private void apirequest(ArrayList<String> symptoms){
+    private void apirequest(String symptoms){
         //showing progress dailog
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Proessing...");
@@ -165,9 +166,10 @@ public class Questionnaire extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String,String>();
-                for(String i : symptoms){
-                    params.put("user_symtoms",i);
-                }
+                // for(String i : symptoms){
+                //     params.put("user_symtoms",i);
+                // }
+                params.put("user_symtoms",symptoms);
                 return params;
             }
         };
