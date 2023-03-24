@@ -107,11 +107,12 @@ public class Questionnaire extends AppCompatActivity {
                     }else {
                         Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
                         symptoms.add(symp);
+                        //sending data throw api
+                        String[] symptomsArray = symptoms.toArray(new String[symptoms.size()]);
+                        apirequest(symptomsArray);
                     }
                 }
-                //sending data throw api
-                String[] symptomsArray = symptoms.toArray(new String[symptoms.size()]);
-                apirequest(symptomsArray);
+                
 
                
            }
