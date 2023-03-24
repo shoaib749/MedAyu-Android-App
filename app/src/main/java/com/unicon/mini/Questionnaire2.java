@@ -73,7 +73,8 @@ public class Questionnaire2 extends AppCompatActivity {
         submit.setOnClickListener(v->{
 //            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
             // TODO all ids of symptoms added in to listofId
-            String[] symptomsArray = check.toArray(new String[check.size()]);
+            String symptomsArray= "[" + String.join(",", symptoms) + "]";
+            Toast.makeText(context, symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);
 
             

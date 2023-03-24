@@ -105,10 +105,12 @@ public class Questionnaire extends AppCompatActivity {
                     if(symp.equals("")){
                         Toast.makeText(context, "Please enter diseases", Toast.LENGTH_LONG).show();
                     }else {
-                        Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context, symp, Toast.LENGTH_SHORT).show();
                         symptoms.add(symp);
                         //sending data throw api
-                        String[] symptomsArray = symptoms.toArray(new String[symptoms.size()]);
+                        // String[] symptomsArray = symptoms.toArray(new String[symptoms.size()]);
+                        String symptomsArray= "[" + String.join(",", symptoms) + "]";
+                        Toast.makeText(context, symptomsArray, Toast.LENGTH_SHORT).show();
                         apirequest(symptomsArray);
                     }
                 }
