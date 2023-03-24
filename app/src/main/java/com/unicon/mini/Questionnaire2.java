@@ -14,8 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Questionnaire2 extends AppCompatActivity {
     LinearLayout LL_symptoms;
@@ -26,42 +38,12 @@ public class Questionnaire2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire2);
         LL_symptoms = findViewById(R.id.LL_symptoms);
-        ArrayList <String> list = new ArrayList<>();
-        ArrayList<Integer> listOfId = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> check = new ArrayList<>();
         submit = findViewById(R.id.submitSymp2);
 
-        //TODO add data in to this list
-        list.add("null");
-        list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");
-        list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");
-        list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");
-        list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");list.add("Congestive heart disease");
-        list.add("Chorea");
-        list.add("Glaucoma");
-
-
-
-
-
-
-
-
+        list = (ArrayList<String>)getIntent().getSerializableExtra("symptoms");
+        Toast.makeText(getApplicationContext(),list.toString(),Toast.LENGTH_LONG).show();
         for (int i = 0; i < list.size(); i++) {
             checkBox = new CheckBox(this.getApplicationContext());
             checkBox.setId(i);
@@ -77,22 +59,72 @@ public class Questionnaire2 extends AppCompatActivity {
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    String value = String.valueOf(compoundButton.getText()).trim();
                     if(b){
-                        listOfId.add(compoundButton.getId());
+                        check.add(String.valueOf(compoundButton.getText()).trim());
                     }
                     else {
-                        listOfId.remove((Object)compoundButton.getId());
+                        check.remove(String.valueOf(compoundButton.getText()).trim());
                     }
                 }
             });
             LL_symptoms.addView(checkBox);
         }
         submit.setOnClickListener(v->{
-            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
             // TODO all ids of symptoms added in to listofId
-            Intent i = new Intent(this.getApplicationContext(),Questionnaire3.class);
-            startActivity(i);
+            String[] symptomsArray = check.toArray(new String[check.size()]);
+            apirequest(symptomsArray);
+
+            
         });
+    }
+    private void apirequest(String[] symptoms){
+        //showing progress dailog
+        Progress progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setTitle("Proessing...");
+        progressDialog.show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+        "https://web-production-aeed.up.railway.app/db",
+        new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    ArrayList<String> resultList = new ArrayList<String>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        resultList.add(jsonArray.getString(i));
+                    }
+                    progressDialog.dismiss();
+                    Intent i = new Intent(getApplicationContext(), Questionnaire3.class);
+                    i.putExtra("symptoms_db", resultList);
+                    startActivity(i);
+
+
+                } catch (Exception error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "errorInJSON:" + error, Toast.LENGTH_LONG).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"error"+error,Toast.LENGTH_LONG).show();
+                    }
+        }){
+            @Override
+            protected Map<String,String[]> getParams(){
+                Map<String,String[]> params = new HashMap<String,String[]>();
+                params.put("request", symptoms);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
 }
