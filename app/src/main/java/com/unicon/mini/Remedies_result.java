@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Remedies_result extends AppCompatActivity {
     
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference dbRef;
+    DatabaseReference dbRef,plantRef ;
     TextView TV_disease_name;
     ListView LL_remedies;
     TextView textView;
@@ -40,41 +40,78 @@ public class Remedies_result extends AppCompatActivity {
         //TODO connect with the UI
         TV_disease_name = findViewById(R.id.TV_disease_name);
         LL_remedies =  findViewById(R.id.list_view);
+
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> description = new ArrayList<>();
         ArrayList<String> images = new ArrayList<>();
 
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
-        names.add("jsdkjfd");
+        //fetching data
+        plants=getData(disase);
+        //fetching data for DB
+        for(String plant : plants){
+            firebaseDatabase = FirebaseDatabase.getInstance()
+            plantRef = firebaseDatabase.getReference("plantDB");
+            plantRef.child(String.valueOf(plant)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task){
+                    if(task.isSuccessful()){
+                        if(task.getResult().exists()){
+                            try{
+                                DataSnapshot dataSnapshot = task.getResult();
+                                String SName = dataSnapshot.child("Scientific_Name").getValue().toString();
+                                String Consume = dataSnapshot.child("Consume").getValue().toString();
+                                String treeUri = String.valueOf(dataSnapshot.child("Tree_link").getValue());
 
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-        description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
-
-        String uri= "https://static8.depositphotos.com/1002932/796/i/950/depositphotos_7964682-stock-photo-green-leaf.jpg";
-        for(int i=0;i<10;i++){
-            images.add(uri);
+                                names.add(SName);
+                                description.add(Consume);
+                                images.add(treeUri);
+                            }catch(Exception e){
+                                Toast.makeText(getApplicationContext(), "error ha" + e, Toast.LENGTH_LONG).show();
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(), "DB data not found", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "DB failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }); 
         }
+
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+        // names.add("jsdkjfd");
+
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+        // description.add("dsjkfhdjkfhsdajhsdafjkhasdjfhsdjfhdsfjhasdjkfhasdfjhsdafjhf");
+
+        // String uri= "https://static8.depositphotos.com/1002932/796/i/950/depositphotos_7964682-stock-photo-green-leaf.jpg";
+        // for(int i=0;i<10;i++){
+        //     images.add(uri);
+        // }
 
         LL_remedies.setAdapter(new CustomListAdapter(this.getApplicationContext(),names,description,images));
 
         LL_remedies.setOnItemClickListener((adapterView, view, i, l) -> {
             Toast.makeText(this, names.get(i), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(),result.class);
+            intent.putExtra("result",names.get(i));
+            startActivity(intent);
         });
     }
 
@@ -96,8 +133,6 @@ public class Remedies_result extends AppCompatActivity {
                                     plants.add(snapshot.getValue().toString());
                             }
                             Log.e("data from DB:",plants.toString());
-
-
 
                         }catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "error ha" + e, Toast.LENGTH_LONG).show();
