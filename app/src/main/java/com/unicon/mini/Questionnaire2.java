@@ -72,9 +72,7 @@ public class Questionnaire2 extends AppCompatActivity {
             LL_symptoms.addView(checkBox);
         }
         submit.setOnClickListener(v->{
-//            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
-            // TODO all ids of symptoms added in to listofId
-            String symptomsArray= "[" + String.join(",", check) + "]";
+            String symptomsArray = TextUtils.join(",",check);
             Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);
 
@@ -101,7 +99,7 @@ public class Questionnaire2 extends AppCompatActivity {
                         resultList.add(jsonArray.getString(i));
                     }
                     progressDialog.dismiss();
-                    Intent i = new Intent(getApplicationContext(), Questionnaire3.class);
+                    Intent i = new Intent(this, Questionnaire3.class);
                     i.putExtra("symptoms_db", resultList);
                     startActivity(i);
 
