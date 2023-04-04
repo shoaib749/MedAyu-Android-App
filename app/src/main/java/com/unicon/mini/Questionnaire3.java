@@ -72,16 +72,16 @@ public class Questionnaire3 extends AppCompatActivity {
         submit.setOnClickListener(v->{
 //            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
             // TODO all ids of symptoms added in to listofId
-            String symptomsArray= "[" + String.join(",", check) + "]";
+            String symptomsArray = TextUtils.join(",",check);
             Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);
-            Intent i = new Intent(this.getApplicationContext(),Remedies_result.class);
+            Intent i = new Intent(getApplicationContext(),Remedies_result.class);
             startActivity(i);
         });
     }
     private void apirequest(String symptoms){
         //showing progress dailog
-        ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+        ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Proessing...");
         progressDialog.show();
         
@@ -93,7 +93,12 @@ public class Questionnaire3 extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    String disease = jsonObject.getString("result");
+                    JSONArray jsonArray = jsonArray.getJSONArray("result")
+                    ArrayList<String> diseaseList = new ArrayList<String>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        diseaseList.add(jsonArray.getString(i));
+                    }
+                    disease = diseaseList.get(0);
                     Log.e("disase:",disease);
                     progressDialog.dismiss();
                     Intent i = new Intent(getApplicationContext(), Remedies_result.class);
