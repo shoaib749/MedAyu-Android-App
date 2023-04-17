@@ -36,6 +36,7 @@ public class Remedies_result extends AppCompatActivity {
         Intent intent = getIntent();
         String disease = intent.getStringExtra("disease");
         //Getting data from firebase
+        Toast.makeText(getApplicationContext(),"disease:"+disease,Toast.LENGTH_LONG).show();
         ArrayList<String> plants = new ArrayList<>();
         //TODO connect with the UI
         TV_disease_name = findViewById(R.id.TV_disease_name);
@@ -46,10 +47,10 @@ public class Remedies_result extends AppCompatActivity {
         ArrayList<String> images = new ArrayList<>();
 
         //fetching data
-        plants=getData(disase);
+        plants=getData(disease);
         //fetching data for DB
         for(String plant : plants){
-            firebaseDatabase = FirebaseDatabase.getInstance()
+            firebaseDatabase = FirebaseDatabase.getInstance();
             plantRef = firebaseDatabase.getReference("plantDB");
             plantRef.child(String.valueOf(plant)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -109,9 +110,9 @@ public class Remedies_result extends AppCompatActivity {
 
         LL_remedies.setOnItemClickListener((adapterView, view, i, l) -> {
             Toast.makeText(this, names.get(i), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(),result.class);
-            intent.putExtra("result",names.get(i));
-            startActivity(intent);
+            Intent intent1 = new Intent(getApplicationContext(),result.class);
+            intent1.putExtra("result",names.get(i));
+            startActivity(intent1);
         });
     }
 

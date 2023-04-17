@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +76,8 @@ public class Questionnaire3 extends AppCompatActivity {
             String symptomsArray = TextUtils.join(",",check);
             Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);
-            Intent i = new Intent(getApplicationContext(),Remedies_result.class);
-            startActivity(i);
+//            Intent i = new Intent(getApplicationContext(),Remedies_result.class);
+//            startActivity(i);
         });
     }
     private void apirequest(String symptoms){
@@ -85,7 +86,7 @@ public class Questionnaire3 extends AppCompatActivity {
         progressDialog.setTitle("Proessing...");
         progressDialog.show();
         
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
         "https://web-production-aeed.up.railway.app/disease",
         new Response.Listener<String>() {
@@ -93,12 +94,12 @@ public class Questionnaire3 extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonArray.getJSONArray("result")
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
                     ArrayList<String> diseaseList = new ArrayList<String>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         diseaseList.add(jsonArray.getString(i));
                     }
-                    disease = diseaseList.get(0);
+                    String disease = diseaseList.get(0);
                     Log.e("disase:",disease);
                     progressDialog.dismiss();
                     Intent i = new Intent(getApplicationContext(), Remedies_result.class);

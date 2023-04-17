@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,17 +76,15 @@ public class Questionnaire2 extends AppCompatActivity {
             String symptomsArray = TextUtils.join(",",check);
             Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);
-
-            
         });
     }
     private void apirequest(String symptoms){
         //showing progress dailog
-        ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+        ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Proessing...");
         progressDialog.show();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
         "https://web-production-aeed.up.railway.app/db",
         new Response.Listener<String>() {
@@ -95,13 +94,17 @@ public class Questionnaire2 extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
                     ArrayList<String> resultList = new ArrayList<String>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    for (int i = 0; i < 10; i++) {
                         resultList.add(jsonArray.getString(i));
                     }
                     progressDialog.dismiss();
-                    Intent i = new Intent(this, Questionnaire3.class);
-                    i.putExtra("symptoms_db", resultList);
-                    startActivity(i);
+                    try {
+                        Intent i = new Intent(Questionnaire2.this, Questionnaire3.class);
+                        i.putExtra("symptoms_db", resultList);
+                        startActivity(i);
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "errorInIntent" + e, Toast.LENGTH_LONG).show();
+                    }
 
 
                 } catch (Exception error) {
