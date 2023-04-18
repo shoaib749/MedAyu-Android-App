@@ -230,9 +230,6 @@ public class ImageView extends AppCompatActivity {
     }
     //code for api request
     private int apirequest(String download){
-//        ProgressDialog Dialog = new ProgressDialog(getApplicationContext());
-//        Dialog.setTitle("Requesting data....");
-//        Dialog.show();
         int flag = 1;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST,

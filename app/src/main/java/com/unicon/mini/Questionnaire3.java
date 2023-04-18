@@ -42,9 +42,12 @@ public class Questionnaire3 extends AppCompatActivity {
         ArrayList<String> list = new ArrayList<>();
         ArrayList<String> check = new ArrayList<>();
         submit = findViewById(R.id.submitSymp3);
-        
+        ArrayList<String> prev = new ArrayList<>();
         list = (ArrayList<String>)getIntent().getSerializableExtra("symptoms_db");
-
+        Toast.makeText(this, "dbGet"+getIntent().getSerializableExtra("symptoms_db"), Toast.LENGTH_SHORT).show();
+        prev = (ArrayList<String>)getIntent().getSerializableExtra("CheckList");
+        check.addAll(prev);
+        Log.e("Added ArrayList",prev.toString());
         for (int i = 0; i < list.size(); i++) {
             checkBox = new CheckBox(this.getApplicationContext());
             checkBox.setId(i);
@@ -73,6 +76,7 @@ public class Questionnaire3 extends AppCompatActivity {
         submit.setOnClickListener(v->{
 //            Toast.makeText(this, listOfId.toString(), Toast.LENGTH_SHORT).show();
             // TODO all ids of symptoms added in to listofId
+
             String symptomsArray = TextUtils.join(",",check);
             Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
             apirequest(symptomsArray);

@@ -75,10 +75,10 @@ public class Questionnaire2 extends AppCompatActivity {
         submit.setOnClickListener(v->{
             String symptomsArray = TextUtils.join(",",check);
             Toast.makeText(getApplicationContext(), symptomsArray, Toast.LENGTH_SHORT).show();
-            apirequest(symptomsArray);
+            apirequest(symptomsArray,check);
         });
     }
-    private void apirequest(String symptoms){
+    private void apirequest(String symptoms,ArrayList<String> check){
         //showing progress dailog
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Proessing...");
@@ -101,6 +101,7 @@ public class Questionnaire2 extends AppCompatActivity {
                     try {
                         Intent i = new Intent(Questionnaire2.this, Questionnaire3.class);
                         i.putExtra("symptoms_db", resultList);
+                        i.putExtra("CheckList",check);
                         startActivity(i);
                     }catch (Exception e){
                         Toast.makeText(getApplicationContext(), "errorInIntent" + e, Toast.LENGTH_LONG).show();
